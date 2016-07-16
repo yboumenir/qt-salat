@@ -8,33 +8,6 @@ set(CMAKE_AUTOMOC ON)
 # Find the QtWidgets library
 find_package(Qt5Core)
 
-message(STATUS "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
-set(QTDIR ${HOME}/Qt/5.7/gcc_64)
-#if(EXISTS ${QTDIR})
-set(ENV{QTDIR}  ${QTDIR})
-#endif()
-
-
-if(EXISTS $ENV{QTDIR})
-  list(APPEND CMAKE_MODULE_PATH $ENV{QTDIR}/lib/cmake )
-  list(APPEND CMAKE_PREFIX_PATH $ENV{QTDIR}/lib/cmake )
-  message(STATUS "${Yellow} CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH} ${RESET}")
-  find_package(Qt5 REQUIRED
-    Core
-    Widgets
-    Gui
-    Network
-    OpenGL
-    Test
-    HINTS $ENV{QTDIR}/lib/cmake
-          $ENV{QTDIR}/lib/cmake/Qt5 )
-else()
-  message(WARNING  "QTDIR environment variable not set... define eosQTDIR cmake var and re-run cmake.")
-  set( QTDIR "/opt/pathToQt5/lib/cmake"  CACHE PATH "where are qt5 cmake files." )
-endif()
-
-
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(HDS include/prayertimes.hpp
         include/trig.hpp)
@@ -43,7 +16,8 @@ set(SRC src/prayertimes.cpp
         src/trig.cpp
         )
 add_executable(qt-salat ${SRC} ${HDS})
-qt5_use_modules(qt-salat Core Gui Widgets OpenGL Network)
+
+qt5_use_modules(qt-salat Core)
 
 
 
